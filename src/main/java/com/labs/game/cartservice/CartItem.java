@@ -4,19 +4,21 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
+@Entity(name = "cartitems")
 public class CartItem {
+    @Id
     private Integer id;
+    @Column
     private String customer;
+    @Column
     private String product;
+    @Column
     private int quantity;
-    public CartItem(int id_i,String customer_i,String product_i,int quantity_i)
-    {
-        id=id_i;
-        customer=customer_i;
-        product=product_i;
-        quantity=quantity_i;
-    }
 }
