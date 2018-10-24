@@ -11,6 +11,11 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import static org.hamcrest.Matchers.hasSize;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+//    package com.labs.game.cartservice;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.junit.Before;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.ArgumentMatchers.eq;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(CartController.class)
@@ -45,5 +50,25 @@ public class CartControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(0))); // empty list should be returned for unknown customer
 
+    }
+
+    @MockBean
+    private CartService cartService;
+
+    @Before
+    public void setUp() {
+
+        given(cartService.findByCustomer(eq("111"))).willReturn(
+                new CartItem[]{
+                        new CartItem(0, "111", "AAA", 10),
+                        new CartItem(0, "111", "BBB", 100)
+                });
+
+        given(cartService.findByCustomer(eq("222"))).willReturn(
+                new CartItem[]{
+                        new CartItem(0, "222", "AAA", 10)
+                });
+
+        given(cartService.findByCustomer(eq("333"))).willReturn(new CartItem[0]);
     }
 }
